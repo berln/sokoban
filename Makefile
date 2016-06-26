@@ -1,19 +1,23 @@
+#!/usr/bin/make -f
 
 CC=gcc
-CFLAGS=-Wall -ansi -pedantic
+CFLAGS=-Wall -ansi -pedantic -g
 LDFLAGS=
 EXEC=sokoban
-BIN=sokoban.o main.o
+BIN=bin/sokoban.o bin/main.o
 SRC=sokoban.c main.c
 HEAD=sokoban.h
+
+BINS=$(sort $(BIN))
 
 all: $(EXEC)
 
 sokoban: $(BIN)
-	$(CC) -o sokoban $(BIN) $(LDFLAGS)
+	$(CC) -o bin/$@ $(BIN) $(LDFLAGS)
 
-%.o: %.c $(HEAD)
-	$(CC) -c $< $(CFLAGS)
+$(BINS): bin/%.o: src/%.c
+	$(CC) -c $< $(CFLAGS) -o $@
+
 
 clean:
 	rm -f *.o *~ 2> /dev/null
