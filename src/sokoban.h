@@ -1,7 +1,7 @@
 #ifndef _SOKOBAN_H
 #define _SOKOBAN_H
-#define HAUTEUR 9
-#define LARGEUR 11
+#define HAUTEUR 10
+#define LARGEUR 8
 #define MAXCH 20
 
 
@@ -15,18 +15,23 @@ typedef struct position {
    int y;
 }position;
 
-typedef char ligne[LARGEUR+1];
-typedef ligne grille[HAUTEUR];
-#endif
+typedef char* Ligne;
+typedef struct _grille{
+	int lenth;
+	int width
+	Ligne * grille;
+} Grille;
 
-void  affichegrille(grille l);
-void copiegrille2(grille l, grille m);
-position  getSokoban(grille l);
+void  afficheGrille(char ** l, int hauteur);
+void copiegrille2(Grille l, Grille m);
+position  getSokoban(Grille l);
 void error(CodeErreur code);
-Boolean verif(grille g);
-int compte(grille g, char c);
-Boolean verifcompt(grille g);
+Boolean verif(Grille g);
+int compte(Grille g, char c);
+Boolean verifcompt(Grille g);
 void fgetgetstring(char lol [MAXCH+1]);
 position pas(position spos,touche cmd);
 void aide();
-position joue(grille jeu, touche dir, position depart, grille init);
+position joue(Grille jeu, touche dir, position depart, Grille init);
+Grille initGrille();
+#endif

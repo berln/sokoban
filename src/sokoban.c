@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "sokoban.h"
 
-position  getSokoban(grille l){
+position  getSokoban(Grille l){
 	int i;
 	int j;
 	position res;
@@ -40,16 +41,16 @@ position  getSokoban(grille l){
     exit(code);
   }/*error*/
 
-void  affichegrille(grille l){
+void  afficheGrille(char ** l, int hauteur){
 	int i;
-	for (i = 0; i < HAUTEUR; ++i)
+	for (i = 0; i < hauteur; ++i)
 	{
 		/* code */
-		printf("%s\n",l[i] );
+		printf("%s %d\n",l[i], i );
 	}
 }
 
-void copiegrille2(grille l, grille m){
+void copiegrille2(Grille l, Grille m){
 	int i;
 	int j;
 
@@ -70,7 +71,7 @@ void copiegrille2(grille l, grille m){
 	}
 }
 
-Boolean verif(grille g){
+Boolean verif(Grille g){
 	int i;
 	int j;
 	int res=0;
@@ -91,7 +92,7 @@ Boolean verif(grille g){
 return FALSE;
 }
 
-int compte(grille g, char c){
+int compte(Grille g, char c){
 	int i=0;
 	int j;
 	int res=0;
@@ -109,7 +110,7 @@ int compte(grille g, char c){
 	return res;
 }
 
-Boolean verifcompt(grille g){
+Boolean verifcompt(Grille g){
 	if (compte(g,CAISSE)!=compte(g,CIBLE))
 	{
 		return TRUE;
@@ -180,7 +181,7 @@ position pas(position spos,touche cmd)
   return spos;
 }
 
-Boolean possible(grille init,position pos)
+Boolean possible(Grille init,position pos)
 { 
   if(pos.x < 0 || pos.x > HAUTEUR)
      return FALSE;
@@ -191,13 +192,13 @@ Boolean possible(grille init,position pos)
   else return TRUE;
 }
 
-void deplace(grille init,position pos_a,position pos_b, grille old)
+void deplace(Grille init,position pos_a,position pos_b, Grille old)
 {
   init[pos_b.x][pos_b.y] = init[pos_a.x][pos_a.y];
   init[pos_a.x][pos_a.y]= old[pos_a.x][pos_a.y];
 }
 
-position joue(grille jeu, touche dir, position depart, grille init)
+position joue(Grille jeu, touche dir, position depart, Grille init)
 {
   position new_pos;
   position pos_caisse;
@@ -230,7 +231,26 @@ position joue(grille jeu, touche dir, position depart, grille init)
 }
 
 
-
+Grille initGrille(){
+	int i;
+	Grille g;
+	int largeur=13;
+	int longueur=3;
+	char * init[]  = {
+			"########...#",
+			"............",
+			"########...#"
+		};
+	g=malloc(longueur*sizeof(char*));
+	for (i = 0; i < longueur; ++i)
+	{
+		/* code */
+		g[i]=malloc(largeur*sizeof(char));
+		strcpy(g[i], init [i]);
+		printf("g=%s,inti=%s i=%d\n",g[i],init[i],i );
+	}
+	return g;
+}
 
 /* lecture chaine caractere
 int taille;
